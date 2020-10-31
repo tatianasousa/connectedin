@@ -16,11 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from perfis import views
+from usuarios.views import RegistrarUsuarioView
+from timelines.views import RealizaPostagemView
+from django.contrib.auth import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name = 'index'),
     path('perfil/<int:perfil_id>', views.exibir, name = 'exibir'),
-    path('perfis/<int:perfil_id>/convidar', views.convidar, name = 'convidar'),
+    path('perfil/<int:perfil_id>/convidar', views.convidar, name = 'convidar'),
     path('convite/<int:convite_id>/aceitar', views.aceitar, name='aceitar'),
+    path('convite/<int:convite_id>/recusar', views.recusar, name='recusar'),
+    path('perfil/<int:perfil_id>/desfazer', views.desfazer, name = 'desfazer'),
+    path('registrar/', RegistrarUsuarioView.as_view(), name='registrar'),
+
+    path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
+    path('login/', v.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', v.LogoutView.as_view(template_name='login.html'), name='logout'),
+
+    path('perfil/<int:perfil_id>/postar', RealizaPostagemView.as_view(), name='postar'),
 ]
